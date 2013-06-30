@@ -67,9 +67,9 @@ public class NestedFormsPage extends WebPage
 	{
 		private static final long serialVersionUID = 1L;
 
-		private final String first = "test";
+		public final String first = "test";
 
-		private final String second = "test";
+        public final String second = "test";
 
 		/** */
 		public boolean onSubmitCalled = false;

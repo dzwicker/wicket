@@ -550,7 +550,6 @@ public final class PropertyResolver
 				{
 					if (aField.getName().equals(expression))
 					{
-						aField.setAccessible(true);
 						return aField;
 					}
 				}
@@ -996,7 +995,6 @@ public final class PropertyResolver
 		{
 			this.index = index;
 			getMethod = method;
-			getMethod.setAccessible(true);
 		}
 
 		private final static Method findSetter(final Method getMethod, final Class<?> clz)
@@ -1051,7 +1049,6 @@ public final class PropertyResolver
 			}
 			if (setMethod != null)
 			{
-				setMethod.setAccessible(true);
 				Object converted = converter.convert(value, getMethod.getReturnType());
 				if (converted == null && value != null)
 				{
@@ -1130,7 +1127,6 @@ public final class PropertyResolver
 		MethodGetAndSet(Method getMethod, Method setMethod, Field field)
 		{
 			this.getMethod = getMethod;
-			this.getMethod.setAccessible(true);
 			this.field = field;
 			this.setMethod = setMethod;
 		}
@@ -1252,12 +1248,7 @@ public final class PropertyResolver
 			}
 			try
 			{
-				Method method = clz.getMethod(name, new Class[] { getMethod.getReturnType() });
-				if (method != null)
-				{
-					method.setAccessible(true);
-				}
-				return method;
+				return clz.getMethod(name, new Class[] { getMethod.getReturnType() });
 			}
 			catch (NoSuchMethodException e)
 			{
@@ -1364,7 +1355,6 @@ public final class PropertyResolver
 		{
 			super();
 			this.field = field;
-			this.field.setAccessible(true);
 		}
 
 		/**

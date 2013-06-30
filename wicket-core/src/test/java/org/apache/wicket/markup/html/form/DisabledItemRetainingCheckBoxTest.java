@@ -110,8 +110,8 @@ public class DisabledItemRetainingCheckBoxTest extends WicketTestCase
 
 		private static final long serialVersionUID = 1L;
 
-		Collection<Integer> selection = new ArrayList<Integer>(Arrays.asList(1, 2));
-		Collection<Integer> selection2 = new ArrayList<Integer>(Arrays.asList(1, 2));
+		public Collection<Integer> selection = new ArrayList<Integer>(Arrays.asList(1, 2));
+        public Collection<Integer> selection2 = new ArrayList<Integer>(Arrays.asList(1, 2));
 
 		/**
 		 * Construct.

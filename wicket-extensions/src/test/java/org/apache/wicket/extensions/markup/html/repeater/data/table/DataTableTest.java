@@ -16,6 +16,7 @@
  */
 package org.apache.wicket.extensions.markup.html.repeater.data.table;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -138,11 +139,11 @@ public class DataTableTest extends WicketTestCase
 		{
 			super(parameters);
 
-			IDataProvider<Number> provider = new IDataProvider<Number>()
+			IDataProvider<Bean> provider = new IDataProvider<Bean>()
 			{
 				private static final long serialVersionUID = 1L;
 
-				private List<Integer> items = Arrays.asList(1, 3, 5);
+				private List<Bean> items = Arrays.asList(new Bean(1), new Bean(3), new Bean(5));
 
 				@Override
 				public void detach()
@@ -150,10 +151,10 @@ public class DataTableTest extends WicketTestCase
 				}
 
 				@Override
-				public Iterator<? extends Number> iterator(long first, long count)
+				public Iterator<Bean> iterator(long first, long count)
 				{
 					StringValue emptyValue = getPageParameters().get("empty");
-					return emptyValue.toBoolean() ? Collections.<Integer> emptyList().iterator()
+					return emptyValue.toBoolean() ? Collections.<Bean> emptyList().iterator()
 						: items.iterator();
 				}
 
@@ -165,16 +166,16 @@ public class DataTableTest extends WicketTestCase
 				}
 
 				@Override
-				public IModel<Number> model(Number object)
+				public IModel<Bean> model(Bean object)
 				{
 					return Model.of(object);
 				}
 			};
 
-			List<IColumn<Number, String>> columns = new ArrayList<IColumn<Number, String>>();
-			columns.add(new PropertyColumn<Number, String>(Model.of("value"), "value"));
+			List<IColumn<Bean, String>> columns = new ArrayList<IColumn<Bean, String>>();
+			columns.add(new PropertyColumn<Bean, String>(Model.of("value"), "value"));
 
-			DataTable<Number, String> table = new DataTable<Number, String>("table", columns, provider, 10);
+			DataTable<Bean, String> table = new DataTable<Bean, String>("table", columns, provider, 10);
 			table.addBottomToolbar(new NoRecordsToolbar(table));
 			table.addTopToolbar(new NoRecordsToolbar(table));
 			add(table);
@@ -188,5 +189,11 @@ public class DataTableTest extends WicketTestCase
 				"<html><body><table wicket:id='table'></table></body></html>");
 		}
 
-	}
+        public class Bean implements Serializable{
+            public int value;
+            public Bean(int value){
+                this.value=value;
+            }
+        }
+    }
 }

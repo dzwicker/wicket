@@ -34,7 +34,7 @@ import org.apache.wicket.validation.validator.StringValidator;
  */
 public class MockAjaxFormPage extends WebPage
 {
-	private static final class MockDomainObject implements Serializable
+	public static final class MockDomainObject implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 

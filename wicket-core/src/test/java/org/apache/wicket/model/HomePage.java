@@ -47,7 +47,7 @@ public class HomePage extends WebPage
 		add(new BookingForm("bookingForm"));
 	}
 
-	private class BookingForm extends Form<Booking>
+	public class BookingForm extends Form<Booking>
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,7 @@ public class HomePage extends WebPage
 		}
 	}
 
-	private class Booking implements Serializable
+	public class Booking implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -89,7 +89,7 @@ public class HomePage extends WebPage
 		}
 	}
 
-	private class PartyDetails implements Serializable
+	public class PartyDetails implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 

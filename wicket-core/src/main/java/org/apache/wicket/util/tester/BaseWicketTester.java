@@ -91,7 +91,6 @@ import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.mock.MockApplication;
 import org.apache.wicket.mock.MockPageManager;
 import org.apache.wicket.mock.MockRequestParameters;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.page.IPageManager;
 import org.apache.wicket.page.IPageManagerContext;
 import org.apache.wicket.protocol.http.IMetaDataBufferingWebResponse;
@@ -132,6 +131,7 @@ import org.apache.wicket.util.visit.IVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 /**
  * A helper class to ease unit testing of Wicket applications without the need for a servlet
  * container. See javadoc of <code>WicketTester</code> for example usage. This class can be used as
@@ -1114,8 +1114,7 @@ public class BaseWicketTester
 			serializeFormToRequest(form);
 			
 			// mark behavior's component as the form submitter,
-			String name = Form.getRootFormRelativeId(new PropertyModel<Component>(behavior,
-					"component").getObject());
+			String name = extractName(behavior);
 			if (!request.getPostParameters().getParameterNames().contains(name))
 			{
 				request.getPostParameters().setParameterValue(name, "marked");
@@ -1124,6 +1123,51 @@ public class BaseWicketTester
 
 		processRequest();
 	}
+
+    private String extractName(AbstractAjaxBehavior behavior) {
+        final Class<? extends AbstractAjaxBehavior> clz = behavior.getClass();
+        try {
+            Field componentField = findField(clz, "component");
+            Component component = (Component) componentField.get(behavior);
+            return Form.getRootFormRelativeId(component);
+        } catch (Exception e) {
+            throw new WicketRuntimeException(
+                    "No get method defined for class: " + clz + " expression: component");
+        }
+    }
+
+    /**
+     * @param clz
+     * @param expression
+     * @return introspected field
+     */
+    private static Field findField(final Class<?> clz, final String expression)
+    {
+        Field field = null;
+        try
+        {
+            field = clz.getField(expression);
+        }
+        catch (Exception e)
+        {
+            Class<?> tmp = clz;
+            while (tmp != null && tmp != Object.class)
+            {
+                Field[] fields = tmp.getDeclaredFields();
+                for (Field aField : fields)
+                {
+                    if (aField.getName().equals(expression))
+                    {
+                        aField.setAccessible(true);
+                        return aField;
+                    }
+                }
+                tmp = tmp.getSuperclass();
+            }
+            log.debug("Cannot find field " + clz + "." + expression);
+        }
+        return field;
+    }
 
 	/**
 	 * 
