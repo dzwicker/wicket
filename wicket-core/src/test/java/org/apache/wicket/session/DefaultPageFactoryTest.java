@@ -23,9 +23,9 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.flow.ResetResponseException;
 import org.apache.wicket.request.handler.EmptyRequestHandler;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import static org.hamcrest.Matchers.is;
 
 
 /**
@@ -160,44 +160,6 @@ public class DefaultPageFactoryTest extends WicketTestCase
 
 	final private IPageFactory pageFactory = new DefaultPageFactory();
 
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
-
-
-	@Test
-	public void throwExceptionInConstructor()
-	{
-		expectedException.expect(WicketRuntimeException.class);
-		expectedException.expectMessage("Can't instantiate page using constructor 'public org.apache.wicket.session.DefaultPageFactoryTest$ThrowExceptionInConstructorPage()'. An exception has been thrown during construction!");
-
-		pageFactory.newPage(ThrowExceptionInConstructorPage.class);
-	}
-
-	@Test
-	public void privateConstructor() {
-		expectedException.expect(WicketRuntimeException.class);
-		expectedException.expectMessage("Can't instantiate page using constructor 'private org.apache.wicket.session.DefaultPageFactoryTest$PrivateDefaultConstructorPage()'. This constructor is private!");
-
-		pageFactory.newPage(PrivateDefaultConstructorPage.class);
-	}
-
-	@Test
-	public void privateConstructorWithParameters() {
-		expectedException.expect(WicketRuntimeException.class);
-		expectedException.expectMessage("Can't instantiate page using constructor 'private org.apache.wicket.session.DefaultPageFactoryTest$PrivateConstructorWithParametersPage(org.apache.wicket.request.mapper.parameter.PageParameters)' and argument 'key=[value]'. This constructor is private!");
-
-		PageParameters parameters = new PageParameters();
-		parameters.add("key", "value");
-		pageFactory.newPage(PrivateConstructorWithParametersPage.class, parameters);
-	}
-
-	@Test
-	public void nonDefaultConstructor() {
-		expectedException.expect(WicketRuntimeException.class);
-		expectedException.expectMessage("Unable to create page from class org.apache.wicket.session.DefaultPageFactoryTest$NonDefaultConstructorPage. Class does not have a visible default constructor.");
-
-		pageFactory.newPage(NonDefaultConstructorPage.class);
-	}
 
 	/**
 	 * Verifies page factory bubbles ResetResponseException
@@ -271,4 +233,46 @@ public class DefaultPageFactoryTest extends WicketTestCase
 			fail();
 		}
 	}
+    @Test
+    public void throwExceptionInConstructor() {
+        try{
+            pageFactory.newPage(ThrowExceptionInConstructorPage.class);
+        } catch (WicketRuntimeException e) {
+            assertThat(e.getMessage(), is("Can't instantiate page using constructor 'public org.apache.wicket.session.DefaultPageFactoryTest$ThrowExceptionInConstructorPage()'. An exception has been thrown during construction!"));
+        }
+    }
+
+    @Test
+    public void privateConstructor() {
+
+        try {
+            pageFactory.newPage(PrivateDefaultConstructorPage.class);
+        } catch (WicketRuntimeException e) {
+            assertThat(e.getMessage(), is("Can't instantiate page using constructor 'private org.apache.wicket.session.DefaultPageFactoryTest$PrivateDefaultConstructorPage()'. This constructor is private!"));
+        }
+    }
+
+    @Test
+    public void privateConstructorWithParameters() {
+
+        try {
+            PageParameters parameters = new PageParameters();
+            parameters.add("key", "value");
+            pageFactory.newPage(PrivateConstructorWithParametersPage.class, parameters);
+            fail();
+        } catch (WicketRuntimeException e) {
+            assertThat(e.getMessage(), is("Can't instantiate page using constructor 'private org.apache.wicket.session.DefaultPageFactoryTest$PrivateConstructorWithParametersPage(org.apache.wicket.request.mapper.parameter.PageParameters)' and argument 'key=[value]'. This constructor is private!"));
+        }
+    }
+
+    @Test
+    public void nonDefaultConstructor() {
+
+        try {
+            pageFactory.newPage(NonDefaultConstructorPage.class);
+            fail();
+        } catch (WicketRuntimeException e) {
+            assertThat(e.getMessage(), is("Unable to create page from class org.apache.wicket.session.DefaultPageFactoryTest$NonDefaultConstructorPage. Class does not have a visible default constructor."));
+        }
+    }
 }

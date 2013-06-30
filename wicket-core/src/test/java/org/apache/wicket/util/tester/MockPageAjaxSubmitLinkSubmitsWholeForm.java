@@ -40,9 +40,9 @@ public class MockPageAjaxSubmitLinkSubmitsWholeForm extends WebPage
 {
 	private static final long serialVersionUID = 1L;
 
-	private String text;
+	public String text;
 
-	private String name;
+    public String name;
 
 	/**
 	 * Constructor that is invoked when page is invoked without a em.

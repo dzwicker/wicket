@@ -179,10 +179,10 @@ public class ValidatorStringResourceLoaderTest extends WicketTestCase
 			}
 		}
 	}
-	
-	private static class FormValidatorEntity
+
+	public static class FormValidatorEntity
 	{
-		private String field1;
-		private String field2;
+		public String field1;
+		public String field2;
 	}
 }

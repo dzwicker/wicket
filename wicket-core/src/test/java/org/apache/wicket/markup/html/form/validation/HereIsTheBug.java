@@ -51,7 +51,7 @@ public class HereIsTheBug extends Panel
 		add(form);
 	}
 
-	static class FormData implements Serializable
+	public static class FormData implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 

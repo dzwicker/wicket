@@ -74,53 +74,7 @@ public class FormTesterSubmitLinkTest extends WicketTestCase
 	public void radioComponentValueEncoding()
 	{
 
-		class TestPage extends WebPage implements IMarkupResourceStreamProvider
-		{
-			private static final long serialVersionUID = 1L;
-
-			private String value;
-			private boolean submitted;
-
-			public TestPage()
-			{
-				Form<Void> form = new Form<Void>("form");
-				add(form);
-
-				RadioGroup<String> group = new RadioGroup<String>("group",
-					new PropertyModel<String>(this, "value"));
-				form.add(group);
-
-				value = "a";
-
-				group.add(new Radio<String>("a", Model.of("a")));
-				group.add(new Radio<String>("b", Model.of("b")));
-
-				form.add(new AjaxSubmitLink("submit")
-				{
-					@Override
-					protected void onSubmit(AjaxRequestTarget target, Form<?> form)
-					{
-						submitted = true;
-					}
-
-					@Override
-					protected void onError(AjaxRequestTarget target, Form<?> form)
-					{
-					}
-				});
-			}
-
-
-			@Override
-			public IResourceStream getMarkupResourceStream(MarkupContainer container,
-				Class<?> containerClass)
-			{
-				return new StringResourceStream(
-					"<html><body><form wicket:id='form'><div wicket:id='group'><input type='radio' wicket:id='a'/><input type='radio' wicket:id='b'/></div><input wicket:id='submit' type='submit'/></form></body></html>");
-			}
-		}
-
-		TestPage page = new TestPage();
+        TestPage2 page = new TestPage2();
 		WicketTester tester = new WicketTester();
 		tester.startPage(page);
 
@@ -132,6 +86,52 @@ public class FormTesterSubmitLinkTest extends WicketTestCase
 		assertTrue(page.submitted);
 		assertEquals("a", page.value);
 	}
+
+    public static class TestPage2 extends WebPage implements IMarkupResourceStreamProvider
+    {
+        private static final long serialVersionUID = 1L;
+
+        public String value;
+        private boolean submitted;
+
+        public TestPage2()
+        {
+            Form<Void> form = new Form<Void>("form");
+            add(form);
+
+            RadioGroup<String> group = new RadioGroup<String>("group",
+                    new PropertyModel<String>(this, "value"));
+            form.add(group);
+
+            value = "a";
+
+            group.add(new Radio<String>("a", Model.of("a")));
+            group.add(new Radio<String>("b", Model.of("b")));
+
+            form.add(new AjaxSubmitLink("submit")
+            {
+                @Override
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+                {
+                    submitted = true;
+                }
+
+                @Override
+                protected void onError(AjaxRequestTarget target, Form<?> form)
+                {
+                }
+            });
+        }
+
+
+        @Override
+        public IResourceStream getMarkupResourceStream(MarkupContainer container,
+                                                       Class<?> containerClass)
+        {
+            return new StringResourceStream(
+                    "<html><body><form wicket:id='form'><div wicket:id='group'><input type='radio' wicket:id='a'/><input type='radio' wicket:id='b'/></div><input wicket:id='submit' type='submit'/></form></body></html>");
+        }
+    }
 
 	/**
 	 * A test page for {@link FormTesterSubmitLinkTest}

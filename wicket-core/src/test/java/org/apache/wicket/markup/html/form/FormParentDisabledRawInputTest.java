@@ -33,8 +33,8 @@ public class FormParentDisabledRawInputTest extends WicketTestCase
 	public static class TestPage extends WebPage
 	{
 		private static final long serialVersionUID = 1L;
-		boolean property = true;
-		boolean enabled = true;
+		public boolean property = true;
+        public boolean enabled = true;
 
 		/**
 		 * Construct.

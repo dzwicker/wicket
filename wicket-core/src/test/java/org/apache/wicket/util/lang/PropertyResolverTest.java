@@ -40,6 +40,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import static org.hamcrest.Matchers.instanceOf;
+
 /**
  * @author jcompagner
  * 
@@ -399,33 +402,37 @@ public class PropertyResolverTest extends WicketTestCase
 		}
 	}
 
-	/**
-	 * @throws Exception
-	 */
-	@Test
-	public void testPrivateField() throws Exception
-	{
-		Address address = new Address();
-		PropertyResolver.setValue("privateAddress", person, address, CONVERTER);
-		Address address2 = (Address)PropertyResolver.getValue("privateAddress", person);
-		assertEquals(address, address2);
-	}
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void testPrivateField() throws Exception {
+        try {
+            Address address = new Address();
+            PropertyResolver.setValue("privateAddress", person, address, CONVERTER);
+            Address address2 = (Address) PropertyResolver.getValue("privateAddress", person);
+        } catch (WicketRuntimeException e) {
+            assertThat(e.getCause(), instanceOf(IllegalAccessException.class));
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void privateFieldOfSuperClass() throws Exception {
+        try {
+            Person2 person2 = new Person2();
+            Address address = new Address();
+            PropertyResolver.setValue("privateAddress", person2, address, CONVERTER);
+            Address address2 = (Address) PropertyResolver.getValue("privateAddress", person2);
+        } catch (WicketRuntimeException e) {
+            assertThat(e.getCause(), instanceOf(IllegalAccessException.class));
+        }
+    }
 
 	/**
-	 * @throws Exception
-	 */
-	@Test
-	public void privateFieldOfSuperClass() throws Exception
-	{
-		Person2 person2 = new Person2();
-		Address address = new Address();
-		PropertyResolver.setValue("privateAddress", person2, address, CONVERTER);
-		Address address2 = (Address)PropertyResolver.getValue("privateAddress", person2);
-		assertEquals(address, address2);
-	}
-
-	/**
-	 * 
+	 *
 	 */
 	@Test
 	public void getTargetClass()
@@ -594,7 +601,7 @@ public class PropertyResolverTest extends WicketTestCase
 	/**
 	 * Used for models in testing.
 	 */
-	private static class InnerVectorPOJO extends Vector<Void>
+	public static class InnerVectorPOJO extends Vector<Void>
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -625,9 +632,9 @@ public class PropertyResolverTest extends WicketTestCase
 		assertEquals(1, obj.value);
 	}
 
-	private static class DirectFieldSetWithDifferentTypeThanGetter
+	public static class DirectFieldSetWithDifferentTypeThanGetter
 	{
-		private int value;
+		public int value;
 
 		public String getValue()
 		{

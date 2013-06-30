@@ -46,9 +46,9 @@ public class Person
 	private int age;
 
 
-	private int onlyGetterPrimitive;
+	public int onlyGetterPrimitive;
 
-	private String onlyGetterString;
+	public String onlyGetterString;
 
 	/**
 	 * @return test
