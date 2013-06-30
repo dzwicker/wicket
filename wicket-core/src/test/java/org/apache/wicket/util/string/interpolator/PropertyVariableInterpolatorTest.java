@@ -60,9 +60,9 @@ public class PropertyVariableInterpolatorTest extends Assert
 		assertEquals("${key}", result.toString());
 	}
 
-	private static class TestClass
+	public static class TestClass
 	{
-		private final String key;
+		public final String key;
 
 		public TestClass(String key)
 		{

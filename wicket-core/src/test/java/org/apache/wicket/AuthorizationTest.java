@@ -285,7 +285,7 @@ public class AuthorizationTest extends WicketTestCase
 	}
 
 	/** simple input holder. */
-	private static class Input implements Serializable
+	public static class Input implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 

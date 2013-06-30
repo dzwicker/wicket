@@ -34,32 +34,32 @@ public class HomePage extends WebPage
 	private String datefield;
 	private String datefield2;
 
-	String getTextfield()
+    public String getTextfield()
 	{
 		return textfield;
 	}
 
-	void setTextfield(String textfield)
+    public void setTextfield(String textfield)
 	{
 		this.textfield = textfield;
 	}
 
-	String getDatefield()
+    public String getDatefield()
 	{
 		return datefield;
 	}
 
-	void setDatefield(String datefield)
+    public void setDatefield(String datefield)
 	{
 		this.datefield = datefield;
 	}
 
-	String getDatefield2()
+    public String getDatefield2()
 	{
 		return datefield2;
 	}
 
-	void setDatefield2(String datefield)
+    public void setDatefield2(String datefield)
 	{
 		datefield2 = datefield;
 	}

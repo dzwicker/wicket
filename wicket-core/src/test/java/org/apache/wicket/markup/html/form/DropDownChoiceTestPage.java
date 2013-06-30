@@ -28,7 +28,7 @@ public class DropDownChoiceTestPage extends WebPage
 {
 	private static final long serialVersionUID = 1L;
 
-	private String string = null;
+	public String string = null;
 
 	/**
 	 * Construct.

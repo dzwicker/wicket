@@ -31,7 +31,7 @@ public class MyPanel extends Panel
 {
 	private static final long serialVersionUID = 1L;
 
-	private String textfield1;
+    public String textfield1;
 
 	/**
 	 * Construct.

@@ -42,7 +42,7 @@ public class HomePage2 extends WebPage
 	{
 
 		setOutputMarkupId(true);
-		add(new Label("msg", new PropertyModel<String>(this, "_message")));
+		add(new Label("msg", new PropertyModel<String>(this, "message")));
 		add(new AjaxLink<Void>("link")
 		{
 			private static final long serialVersionUID = 1L;
@@ -64,7 +64,11 @@ public class HomePage2 extends WebPage
 		});
 	}
 
-	@Override
+    public String getMessage() {
+        return _message;
+    }
+
+    @Override
 	protected void onBeforeRender()
 	{
 		_message = "onBeforeRender called";

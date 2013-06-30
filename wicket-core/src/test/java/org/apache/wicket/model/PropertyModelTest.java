@@ -65,7 +65,7 @@ public class PropertyModelTest extends WicketTestCase
 		/** tests a <code>null</code> concrete class property. */
 		public ConcreteAddress concreteAddress;
 		/** tests a <code>null</code> final concrete class property. */
-		public final ConcreteAddress finalAddress = null;
+		public ConcreteAddress finalAddress = null;
 	}
 
 	/**

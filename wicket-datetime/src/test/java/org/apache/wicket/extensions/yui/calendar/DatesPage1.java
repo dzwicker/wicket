@@ -147,7 +147,7 @@ public class DatesPage1 extends WebPage
 			Locale.US);
 	}
 
-	private final Date date = new Date();
+	public final Date date = new Date();
 
 	private Locale selectedLocale = LOCALE_EN;
 

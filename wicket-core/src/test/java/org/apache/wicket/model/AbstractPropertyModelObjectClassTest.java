@@ -112,7 +112,7 @@ public class AbstractPropertyModelObjectClassTest extends Assert
 		}
 	}
 
-	private static class CustomBean implements Serializable
+	public static class CustomBean implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 		private CustomType customType;

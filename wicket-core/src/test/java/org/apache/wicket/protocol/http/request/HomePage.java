@@ -31,8 +31,8 @@ public class HomePage extends WebPage
 
 	private static final long serialVersionUID = 1L;
 
-	private String text1;
-	private String text2;
+	public String text1;
+    public String text2;
 
 	/**
 	 * Constructor that is invoked when page is invoked without a session.
