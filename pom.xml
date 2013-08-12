@@ -152,10 +152,22 @@
                     <uniqueVersion>true</uniqueVersion>
                 </snapshotRepository>
                 <site>
-                    <id>dev.in2experience.com</id>
-                    <url>scp://dev.in2experience.com/var/www/dev.in2experience.com/invex/rom</url>
+                    <id>local</id>
+                    <url>file:target/site</url>
                 </site>
             </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 	</profiles>
 	<url>http://wicket.apache.org/${project.artifactId}</url>
