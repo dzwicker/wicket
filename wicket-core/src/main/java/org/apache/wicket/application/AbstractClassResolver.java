@@ -16,6 +16,10 @@
  */
 package org.apache.wicket.application;
 
+import org.apache.wicket.Application;
+import org.apache.wicket.WicketRuntimeException;
+import org.apache.wicket.util.collections.UrlExternalFormComparator;
+
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.Enumeration;
@@ -25,16 +29,12 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.wicket.Application;
-import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.util.collections.UrlExternalFormComparator;
-
 /**
  * An abstract implementation of a {@link IClassResolver} which uses a {@link ClassLoader} for
  * resolving classes.
- * 
+ *
  * @see org.apache.wicket.settings.IApplicationSettings#getClassResolver()
- * 
+ *
  * @author Juergen Donnerstag
  * @author Jonathan Locke
  */
@@ -44,11 +44,11 @@ public abstract class AbstractClassResolver implements IClassResolver
 	 * Usually class loaders implement more efficient caching strategies than we could possibly do,
 	 * but we experienced synchronization issue resulting in stack traces like:
 	 * java.lang.LinkageError: duplicate class definition:
-	 * 
+	 *
 	 * <pre>
 	 *    wicket/examples/repeater/RepeatingPage at java.lang.ClassLoader.defineClass1(Native Method)
 	 * </pre>
-	 * 
+	 *
 	 * This problem has gone since we synchronize the access.
 	 */
 	private final ConcurrentMap<String, WeakReference<Class<?>>> classes = new ConcurrentHashMap<String, WeakReference<Class<?>>>();
@@ -99,6 +99,10 @@ public abstract class AbstractClassResolver implements IClassResolver
 			{
 				clazz = char.class;
 			}
+            else if (className.equals("void"))
+            {
+                clazz = void.class;
+            }
 			else
 			{
 				// synchronize on the only class member to load only one class at a time and
@@ -145,7 +149,7 @@ public abstract class AbstractClassResolver implements IClassResolver
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resources
 	 * @param loadedResources
 	 */
