@@ -20,29 +20,71 @@
 	<parent>
 		<groupId>org.apache.wicket</groupId>
 		<artifactId>wicket-parent</artifactId>
-		<version>6.12.0-IN2EX</version>
+		<version>6.12.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<artifactId>wicket-objectsizeof-agent</artifactId>
+	<artifactId>wicket-core</artifactId>
 	<packaging>jar</packaging>
-	<name>Wicket Objects Sizeof Agent</name>
-	<description>Agent for pluggin in object size measurements using instrumentation</description>
+	<name>Wicket Core</name>
+	<description>
+		Wicket is a Java web application framework that takes simplicity, 
+		separation of concerns and ease of development to a whole new level. 
+		Wicket pages can be mocked up, previewed and later revised using 
+		standard WYSIWYG HTML design tools. Dynamic content processing and 
+		form handling is all handled in Java code using a first-class 
+		component model backed by POJO data beans that can easily be 
+		persisted using your favorite technology. 
+	</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
-			<version>${project.version}</version>
+			<artifactId>wicket-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-request</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>provided</scope>
+			<!-- provided because of the -test jar we build? -->
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>provided</scope>
+			<!-- provided because of the -test jar we build? -->
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-clover-plugin</artifactId>
+				<version>2.4</version>
 				<configuration>
-					<archive>
-						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
+					<cloverOutputDirectory>${project.build.directory}/clover</cloverOutputDirectory>
+					<licenseLocation>${basedir}/../../../common/lib/clover.license</licenseLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/jquery*.js</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -69,6 +111,25 @@
 										</versionRange>
 										<goals>
 											<goal>manifest</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											net.alchim31.maven
+										</groupId>
+										<artifactId>
+											yuicompressor-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.3.0,)
+										</versionRange>
+										<goals>
+											<goal>compress</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

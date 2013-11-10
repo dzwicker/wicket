@@ -20,30 +20,45 @@
 	<parent>
 		<groupId>org.apache.wicket</groupId>
 		<artifactId>wicket-parent</artifactId>
-		<version>6.12.0-IN2EX</version>
+		<version>6.12.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<artifactId>wicket-objectsizeof-agent</artifactId>
+	<artifactId>wicket-datetime</artifactId>
 	<packaging>jar</packaging>
-	<name>Wicket Objects Sizeof Agent</name>
-	<description>Agent for pluggin in object size measurements using instrumentation</description>
+	<name>Wicket Date/Time</name>
+	<description>Date/Time components and utilities for Wicket</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+						<configuration>
+							<instructions>
+								<Export-Package>
+									!org.apache.wicket.extensions.yui.yahoo-dom-event,* 
+								</Export-Package>
+							</instructions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>
